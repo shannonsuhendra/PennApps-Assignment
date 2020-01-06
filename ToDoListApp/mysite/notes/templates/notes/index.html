@@ -1,0 +1,11 @@
+<h1>NOTES</h1>
+
+{% if latest_subject_list %}
+    <ul>
+    {% for subject in latest_subject_list %}
+    <li><a href="{% url 'notes:results' subject.id %}">{{subject.count}} -- {{ subject.subject_text }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No subjects are available.</p>
+{% endif %}

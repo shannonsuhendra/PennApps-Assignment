@@ -1,0 +1,17 @@
+<h1>{{ subject.subject_text }}</h1>
+
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+<form action="{% url 'notes:edit' subject.id %}" method="post">
+    {% csrf_token %}
+    {% for list in subject.list_set.all %}
+        <input type="radio" name="list" id="list{{ forloop.counter }}" value="{{ list.id }}">
+        <label for="list{{ forloop.counter }}">{{ list.list_text }}</label><br>
+    {% endfor %}
+    <input type="submit" value="Edit">
+    </form>
+<form action="{% url 'notes:results' subject.id %}" method="get">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Cancel">
+    </form>

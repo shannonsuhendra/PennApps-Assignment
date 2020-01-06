@@ -1,0 +1,11 @@
+<h1>{{ subject.subject_text }}</h1>
+
+<ul>
+{% for list in subject.list_set.all %}
+    <li>{{ list.list_text }}</li>
+{% endfor %}
+</ul>
+
+<a href="{% url 'notes:index'  %}"> Back</a>
+<a href="{% url 'notes:detail' subject.id %}"> Edit</a>
+<a href="{% url 'notes:detail_add' subject.id %}"> Add</a>
