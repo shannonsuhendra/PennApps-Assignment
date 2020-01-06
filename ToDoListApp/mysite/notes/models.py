@@ -1,4 +1,5 @@
 from django.db import models
+from datetime import date
 
 class Subject(models.Model):
     subject_text = models.CharField(max_length=200)
@@ -14,5 +15,8 @@ class List(models.Model):
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
     list_text = models.CharField(max_length=200)
     completed = models.BooleanField(default=False)
+    due_date = models.DateField(("Date"), default=date.today)
     def __str__(self):
         return self.list_text
+    class Meta:
+        ordering = ('due_date',)

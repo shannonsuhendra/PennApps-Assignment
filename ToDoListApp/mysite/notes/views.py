@@ -47,20 +47,50 @@ def add(request, subject_id):
     subject = get_object_or_404(Subject, pk=subject_id)
     if request.method == 'POST':
         add_id = request.POST.get('textfield', None)
+        date_id = request.POST.get('datefield', None)
+        #month,day,year = date_id.split('/')
+        #isValidDate = True
+        print(date_id)
+        print(add_id)
         try:
             s = Subject.objects.get(pk=subject_id)
             error_message = ""
-            if(add_id==""):
+            if(add_id=="" or date_id==""):
+                if(add_id==""):
+                    error_message = "No added list"
+                elif(date_id==""):
+                    error_message = "No added date"
                 return render(request, 'notes/detail_add.html', {
                 'subject': subject,
-                'error_message': "No added list",
+                'error_message': error_message,
             })
+            isValidDate = True
+            #checks if there is no alphabets
+            if(date_id.upper().isupper()):
+                isValidDate = False
+            else:
+                #checks if there is 2 /
+                if(not date_id.count('-') == 2):
+                    isValidDate = False
+                else:
+                    year,month,day = date_id.split('-')
+                    try: 
+                        datetime.datetime(int(year), int(month), int(day))
+                    except ValueError:
+                        isValidDate = False
+            if(not isValidDate):
+                return render(request, 'notes/detail_add.html', {
+                'subject': subject,
+                'error_message': "Invalid date",
+                })
+            else:
+                print("valid date")
         except (KeyError, add_id==""):
             return render(request, 'notes/detail_add.html', {
                 'subject': subject,
                 'error_message': "Add Error",
             })
         else:
-            s.list_set.create(list_text=add_id, completed="False")
+            s.list_set.create(list_text=add_id, completed="False", due_date=date_id)
             s.save()
             return HttpResponseRedirect(reverse('notes:results', args=(subject.id,)))
