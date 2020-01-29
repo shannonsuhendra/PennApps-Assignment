@@ -21,14 +21,14 @@ def detail(request, subject_id):
         subject = get_object_or_404(Subject, pk=subject_id)
         return render(request, 'notes/detail.html', {'subject': subject})
     else:
-        return render(request, 'notes/index.html')
+        return HttpResponseRedirect('/')
 
 def detail_add(request, subject_id):
     if request.user.is_authenticated:
         subject = get_object_or_404(Subject, pk=subject_id)
         return render(request, 'notes/detail_add.html', {'subject': subject})
     else:
-        return render(request, 'notes/index.html')
+        return HttpResponseRedirect('/')
 
 def results(request, subject_id):
     if request.user.is_authenticated:
@@ -38,7 +38,7 @@ def results(request, subject_id):
         List.objects.order_by('-due_date')
         return render(request, 'notes/results.html', {'subject': subject})
     else:
-        return render(request, 'notes/index.html')
+        return HttpResponseRedirect('/')
 
 def edit(request, subject_id):
     if request.user.is_authenticated:
@@ -57,7 +57,7 @@ def edit(request, subject_id):
                 selected_list.delete()
             return HttpResponseRedirect(reverse('notes:results', args=(subject.id,)))
     else:
-        return render(request, 'notes/index.html')
+        return HttpResponseRedirect('/')
 
 
 def add(request, subject_id):
@@ -109,7 +109,7 @@ def add(request, subject_id):
                 s.save()
                 return HttpResponseRedirect(reverse('notes:results', args=(subject.id,)))
     else:
-        return render(request, 'notes/index.html')
+        return HttpResponseRedirect('/')
 
 
 def createUser(request):
@@ -123,9 +123,9 @@ def createUser(request):
     user = authenticate(username=username, password=password)
     if user is not None:
         login(request,user)
-        return render(request, 'notes/index.html')
+        return HttpResponseRedirect('/')
     else:
-        return render(request, 'notes/index.html')
+        return HttpResponseRedirect('/')
 
 def auth(request):
     username = request.POST['username']
@@ -133,13 +133,13 @@ def auth(request):
     user = authenticate(username=username, password=password)
     if user is not None:
         login(request,user)
-        return render(request, 'notes/index.html')
+        return HttpResponseRedirect('/')
     else:
-        return render(request, 'notes/index.html')
+        return HttpResponseRedirect('/')
 
 def signIn(request):
     return render(request, "notes/signin.html")
 
 def logOut(request):
     logout(request)
-    return render(request, 'notes/index.html')
+    return HttpResponseRedirect('/')
