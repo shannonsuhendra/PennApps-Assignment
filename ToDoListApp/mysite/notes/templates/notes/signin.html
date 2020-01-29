@@ -1,0 +1,13 @@
+{% block content %}
+  <h1> Register </h1>
+  <form action="/createUser" method="POST">{% csrf_token %}
+    Username: <input type="text" name="username"> <br><br>
+    Password: <input type="password" name="password"> <br><br>
+    Confirm Password: <input type="password" name="confirmedPassword"> <br><br>
+    First Name: <input type="text" name="firstName"> <br><br>
+    Last Name: <input type="text" name="lastName"> <br><br>
+    Email: <input type="text" name="email"> <br><br>
+    <input type="submit" name="submit">
+  </form>
+  <br>
+  {% endblock %}

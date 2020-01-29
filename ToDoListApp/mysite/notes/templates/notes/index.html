@@ -1,5 +1,6 @@
 <p align="center"><font size="20">NOTES</font></p>
 
+<a href="/logout">Logout</a>
 <div> 
     {% if latest_subject_list %}
         <ul align="left">
@@ -8,12 +9,10 @@
         {% endfor %}
         </ul>
     {% else %}
-        <p>No subjects are available.</p>
+        <p> No subjects are available.</p>
     {% endif %}
 
 </div>
-
-
 <style>
     div {
       border: 1px solid black;
